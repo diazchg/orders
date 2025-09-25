@@ -17,7 +17,6 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity createOrder(@RequestBody CreateOrderRequest createOrderRequest) throws Exception {
-        System.out.println(createOrderRequest);
         return ResponseEntity.created(new URI("/orders/1")).build();
     }
 }
