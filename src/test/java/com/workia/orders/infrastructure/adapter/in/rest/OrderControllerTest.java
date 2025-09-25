@@ -10,8 +10,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.net.URI;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest
 class OrderControllerTest {
@@ -31,6 +30,7 @@ class OrderControllerTest {
     void validOrderCreated() throws Exception {
         mockMvc.perform(post(new URI("/orders")))
                 .andExpect(status().isCreated())
-                .andExpect(content().json("{}"));
+                .andExpect(header().exists("location"))
+                .andExpect(header().stringValues("location", "/orders/1"));
     }
 }
