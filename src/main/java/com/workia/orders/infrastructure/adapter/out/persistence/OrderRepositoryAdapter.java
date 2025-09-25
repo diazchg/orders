@@ -10,16 +10,14 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public class OrderRepositoryAdapter implements OrderRepositoryPort {
 
-    private static Map<String, CreatedOrderEntity> dbMap;
+    private final ConcurrentHashMap<String, CreatedOrderEntity> dbMap = new ConcurrentHashMap<>();
 
-    @PostConstruct
-    private void initializeDB(){
-        OrderRepositoryAdapter.dbMap = new HashMap<>();
-    }
+
 
     @Override
     public CreatedOrderEntity saveOrder(CalculatedOrder order) {
@@ -29,7 +27,7 @@ public class OrderRepositoryAdapter implements OrderRepositoryPort {
                 .totalAmount(order.getTotalAmount())
                 .uuid(uuid.toString())
                 .build();
-        OrderRepositoryAdapter.dbMap.put(createdOrderEntity.getUuid(), createdOrderEntity);
+        this.dbMap.put(createdOrderEntity.getUuid(), createdOrderEntity);
         return createdOrderEntity;
     }
 }
