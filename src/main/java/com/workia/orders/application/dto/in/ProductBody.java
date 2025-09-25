@@ -12,6 +12,6 @@ import lombok.ToString;
 @AllArgsConstructor
 public class ProductBody {
     private String name;
-    private int amount;
+    private int quantity;
     private double unitPrice;
 }
