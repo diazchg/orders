@@ -11,10 +11,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.net.URI;
 import java.util.List;
 
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.matchesRegex;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -54,8 +57,13 @@ class OrderControllerTest {
                         .content(this.objectMapper.writeValueAsString(createOrderRequestBody))
                         .contentType(APPLICATION_JSON)
                 )
-                .andExpect(status().isCreated())
-                .andExpect(header().exists("location"))
-                .andExpect(header().stringValues("location", "/orders/1"));
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("creationDate")))
+                .andExpect(content().string(containsString("uuid")))
+                .andExpect(content().string(containsString("totalAmount")))
+        ;
+
+
+
     }
 }

@@ -41,6 +41,6 @@ public class OrderController {
                 )
                 .build();
         CreatedOrder createdOrder = this.createOrderUseCase.execute(order);
-        return ResponseEntity.created(new URI("/orders/"+createdOrder.getUuid())).build();
+        return ResponseEntity.ok(createdOrder);
     }
 }
