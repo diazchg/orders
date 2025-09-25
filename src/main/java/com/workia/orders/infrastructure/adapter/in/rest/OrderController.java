@@ -3,6 +3,7 @@ package com.workia.orders.infrastructure.adapter.in.rest;
 import com.workia.orders.application.dto.in.CreateOrderRequest;
 import com.workia.orders.application.ports.in.CreateOrderUseCase;
 import com.workia.orders.domain.model.Client;
+import com.workia.orders.domain.model.CreatedOrder;
 import com.workia.orders.domain.model.Order;
 import com.workia.orders.shared.OrderControllerHelper;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +40,7 @@ public class OrderController {
                                 .toList()
                 )
                 .build();
-        long orderId = this.createOrderUseCase.execute(order);
-        return ResponseEntity.created(new URI("/orders/"+orderId)).build();
+        CreatedOrder createdOrder = this.createOrderUseCase.execute(order);
+        return ResponseEntity.created(new URI("/orders/"+createdOrder.getUuid())).build();
     }
 }
