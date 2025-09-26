@@ -1,6 +1,7 @@
 package com.workia.orders.infrastructure.adapter.in.rest;
 
 import com.workia.orders.application.dto.in.CreateOrderRequest;
+import com.workia.orders.application.dto.out.CreateOrderResponse;
 import com.workia.orders.application.ports.in.CreateOrderUseCase;
 import com.workia.orders.domain.model.Client;
 import com.workia.orders.domain.model.CreatedOrder;
@@ -26,7 +27,7 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity createOrder(@Valid @RequestBody CreateOrderRequest createOrderRequest) throws Exception {
+    public ResponseEntity<CreateOrderResponse> createOrder(@Valid @RequestBody CreateOrderRequest createOrderRequest) throws Exception {
         Order order = Order.builder()
                 .client(Client.builder()
                         .email(createOrderRequest.getClient().getEmail())
@@ -40,6 +41,11 @@ public class OrderController {
                 )
                 .build();
         CreatedOrder createdOrder = this.createOrderUseCase.execute(order);
-        return ResponseEntity.ok(createdOrder);
+        CreateOrderResponse createOrderResponse = CreateOrderResponse.builder()
+                .uuid(createdOrder.getUuid())
+                .totalAmount(createdOrder.getTotalAmount())
+                .creationDate(createdOrder.getCreationDate())
+                .build();
+        return ResponseEntity.ok(createOrderResponse);
     }
 }

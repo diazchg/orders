@@ -2,16 +2,14 @@ package com.workia.orders.application.dto.in;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 
 @Getter
 @Builder
 @ToString
 @AllArgsConstructor
+@NoArgsConstructor
 public class ProductBody {
 
     @NotEmpty(message = "Must provide a product name")

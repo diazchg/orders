@@ -2,10 +2,7 @@ package com.workia.orders.application.dto.in;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 
@@ -14,6 +11,7 @@ import java.util.List;
 @Builder
 @ToString
 @AllArgsConstructor
+@NoArgsConstructor
 public class CreateOrderRequest {
 
     @Valid

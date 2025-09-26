@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.workia.orders.application.dto.in.ClientBody;
 import com.workia.orders.application.dto.in.CreateOrderRequest;
 import com.workia.orders.application.dto.in.ProductBody;
+import com.workia.orders.application.dto.out.CreateOrderResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -13,12 +14,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Stream;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -31,14 +35,8 @@ class OrderControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
     private ObjectMapper objectMapper;
-
-    @BeforeEach
-    void setUp() throws Exception {
-        this.objectMapper = new ObjectMapper();
-
-    }
-
 
     @Test
     void validOrderCreated() throws Exception {
@@ -65,6 +63,36 @@ class OrderControllerTest {
                 .andExpect(content().string(containsString("totalAmount")))
         ;
 
+    }
+
+    @Test
+    void whenMoreThanZeroProductsAreProvided_thenMustReturnACreatedOrder() throws Exception {
+        CreateOrderRequest createOrderRequestBody = CreateOrderRequest.builder()
+                .client(ClientBody.builder()
+                        .email("gusdiaz@gmail.com")
+                        .name("gustavo")
+                        .build())
+                .products(
+                        List.of(ProductBody.builder().name("Mate").unitPrice(100).quantity(1)
+                                .build(),
+                                ProductBody.builder().name("NoMate").unitPrice(155).quantity(3)
+                                        .build()
+                        )
+                ).build();
+
+        MvcResult mvcResult = mockMvc.perform(post(new URI("/orders"))
+                        .content(this.objectMapper.writeValueAsString(createOrderRequestBody))
+                        .contentType(APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andReturn();
+
+        String jsonResponse = mvcResult.getResponse().getContentAsString();
+        CreateOrderResponse createOrderResponse = objectMapper.readValue(jsonResponse, CreateOrderResponse.class);
+        assertNotNull(createOrderResponse);
+        assertEquals(565.0, createOrderResponse.getTotalAmount());
+        assertNotNull(createOrderResponse.getUuid());
     }
 
 

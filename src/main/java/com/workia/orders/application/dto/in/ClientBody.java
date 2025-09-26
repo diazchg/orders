@@ -2,15 +2,13 @@ package com.workia.orders.application.dto.in;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Builder
 @ToString
 @AllArgsConstructor
+@NoArgsConstructor
 public class ClientBody {
 
     @NotEmpty(message = "Must provide an email")
