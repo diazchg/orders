@@ -20,6 +20,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.matchesRegex;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -63,7 +64,31 @@ class OrderControllerTest {
                 .andExpect(content().string(containsString("totalAmount")))
         ;
 
+    }
 
+
+    @Test
+    void whenProductQuantityIsZero_thenReturnBadRequestStatusCode() throws Exception {
+        CreateOrderRequest createOrderRequestBody = CreateOrderRequest.builder()
+                .client(ClientBody.builder()
+                        .email("gusdiaz@gmail.com")
+                        .name("gustavo")
+                        .build())
+                .products(
+                        List.of(ProductBody.builder()
+                                .name("Mate")
+                                .unitPrice(100)
+                                .quantity(0)
+                                .build())
+                ).build();
+
+        mockMvc.perform(post(new URI("/orders"))
+                        .content(this.objectMapper.writeValueAsString(createOrderRequestBody))
+                        .contentType(APPLICATION_JSON)
+                )
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string(containsString("Product Quantity must always be more than 0")))
+                .andDo(print());
 
     }
 }
