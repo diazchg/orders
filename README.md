@@ -48,3 +48,27 @@ Una vez que el proyecto está corriendo, puedes probar la API utilizando el sigu
     ]
 }
 ```
+Puedes enviar la solicitud usando el siguiente comando curl:bash
+
+  ```bash
+   curl --location 'localhost:8080/orders' \
+   --header 'Content-Type: application/json' \
+   --data-raw '{
+     "client": {
+       "name": "Gus",
+       "email": "gusdiaz@gmail.com"
+     },
+     "products": [
+       {
+         "name": "peras",
+         "quantity": 1,
+         "unitPrice": 100
+       },
+       {
+         "name": "manzanas",
+         "quantity": 1,
+         "unitPrice": 100
+       }
+     ]
+   }'
+```
