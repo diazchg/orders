@@ -1,6 +1,5 @@
 package com.workia.orders.application.dto.in;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +11,6 @@ import lombok.ToString;
 @AllArgsConstructor
 public class ClientBody {
 
-    @NotNull
     private String email;
     private String name;
 }
