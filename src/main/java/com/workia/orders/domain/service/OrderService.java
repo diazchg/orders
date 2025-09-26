@@ -7,6 +7,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrderService {
     public CalculatedOrder calculateOrderTotal(Order order){
-        return CalculatedOrder.builder().build();
+        return CalculatedOrder.builder()
+                .totalAmount(order.getProducts().stream()
+                        .mapToDouble(product -> product.getUnitPrice() * product.getQuantity())
+                        .sum())
+                .build();
     }
 }
