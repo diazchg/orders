@@ -118,12 +118,12 @@ class OrderControllerTest {
                                 .client(ClientBody.builder().name("gustavo").build())
                                 .products(List.of(ProductBody.builder().name("Mate").unitPrice(100).quantity(1).build())).
                                 build(),
-                        "Email can not be null"),
+                        "Must provide an email"),
                 Arguments.of(CreateOrderRequest.builder()
-                                .client(ClientBody.builder().email("gusdiaz@gmail.com").name("gustavo").build())
+                                .client(ClientBody.builder().email("gusdiaz@gmail.com").build())
                                 .products(List.of(ProductBody.builder().name("Mate").unitPrice(100).quantity(1).build())).
                                 build(),
-                        "Client name cannot be null"),
+                        "Must provide a client name"),
                 Arguments.of(CreateOrderRequest.builder()
                                 .client(ClientBody.builder().email("gusdiaz@gmail.com").name("g").build())
                                 .products(List.of(ProductBody.builder().name("Mate").unitPrice(100).quantity(1).build())).
@@ -133,17 +133,17 @@ class OrderControllerTest {
                                 .client(ClientBody.builder().email("gusdiaz@gmail.com").name("gustavo").build())
                                 .products(List.of()).
                                 build(),
-                        "Most add at least 1 Product"),
+                        "Must provide at least 1 product"),
                 Arguments.of(CreateOrderRequest.builder()
                                 .client(ClientBody.builder().email("gusdiaz@gmail.com").name("gustavo").build())
-                                .products(List.of(ProductBody.builder().name("Mate").unitPrice(100).quantity(1).build())).
+                                .products(List.of(ProductBody.builder().unitPrice(100).quantity(1).build())).
                                 build(),
-                        "Product Quantity must always be more than 0"),
+                        "Must provide a product name"),
                 Arguments.of(CreateOrderRequest.builder()
                                 .client(ClientBody.builder().email("gusdiaz@gmail.com").name("gustavo").build())
                                 .products(List.of(ProductBody.builder().name("Mate").unitPrice(0).quantity(1).build())).
                                 build(),
-                        "Must provide a valid price")
+                        "Product unit price must always be more than 0")
 
         );
     }

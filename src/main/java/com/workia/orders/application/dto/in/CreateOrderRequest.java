@@ -1,6 +1,7 @@
 package com.workia.orders.application.dto.in;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,5 +20,6 @@ public class CreateOrderRequest {
     private ClientBody client;
 
     @Valid
+    @NotEmpty(message = "Must provide at least 1 product")
     private List<ProductBody> products;
 }
