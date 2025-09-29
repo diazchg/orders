@@ -2,6 +2,7 @@ package com.workia.orders.infrastructure.adapter.out.persistence;
 
 import com.workia.orders.application.ports.out.OrderRepositoryPort;
 import com.workia.orders.domain.model.CalculatedOrder;
+import com.workia.orders.domain.model.CreatedOrder;
 import com.workia.orders.infrastructure.adapter.out.persistence.entity.CreatedOrderEntity;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Repository;
@@ -20,7 +21,7 @@ public class OrderRepositoryAdapter implements OrderRepositoryPort {
 
 
     @Override
-    public CreatedOrderEntity saveOrder(CalculatedOrder order) {
+    public CreatedOrder saveOrder(CalculatedOrder order) {
         UUID uuid = UUID.randomUUID();
         CreatedOrderEntity createdOrderEntity = CreatedOrderEntity.builder()
                 .creationDate(LocalDateTime.now())
@@ -28,6 +29,11 @@ public class OrderRepositoryAdapter implements OrderRepositoryPort {
                 .uuid(uuid.toString())
                 .build();
         this.dbMap.put(createdOrderEntity.getUuid(), createdOrderEntity);
-        return createdOrderEntity;
+
+        return CreatedOrder.builder()
+                .creationDate(createdOrderEntity.getCreationDate())
+                .totalAmount(createdOrderEntity.getTotalAmount())
+                .uuid(createdOrderEntity.getUuid())
+                .build();
     }
 }

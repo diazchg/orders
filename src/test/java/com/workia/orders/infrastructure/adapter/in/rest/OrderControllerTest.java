@@ -5,7 +5,6 @@ import com.workia.orders.application.dto.in.ClientBody;
 import com.workia.orders.application.dto.in.CreateOrderRequest;
 import com.workia.orders.application.dto.in.ProductBody;
 import com.workia.orders.application.dto.out.CreateOrderResponse;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

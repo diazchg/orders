@@ -6,7 +6,6 @@ import com.workia.orders.domain.model.CalculatedOrder;
 import com.workia.orders.domain.model.CreatedOrder;
 import com.workia.orders.domain.model.Order;
 import com.workia.orders.domain.service.OrderService;
-import com.workia.orders.infrastructure.adapter.out.persistence.entity.CreatedOrderEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -20,11 +19,11 @@ public class CreateOrderUseCaseImpl implements CreateOrderUseCase {
     @Override
     public CreatedOrder execute(Order order) {
         CalculatedOrder calculatedOrder = this.orderService.calculateOrderTotal(order);
-        CreatedOrderEntity createdOrderEntity = orderRepositoryPort.saveOrder(calculatedOrder);
+        CreatedOrder createdOrder = orderRepositoryPort.saveOrder(calculatedOrder);
         return CreatedOrder.builder()
-                .creationDate(createdOrderEntity.getCreationDate())
-                .uuid(createdOrderEntity.getUuid())
-                .totalAmount(createdOrderEntity.getTotalAmount())
+                .creationDate(createdOrder.getCreationDate())
+                .uuid(createdOrder.getUuid())
+                .totalAmount(createdOrder.getTotalAmount())
                 .build();
     }
 }

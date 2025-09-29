@@ -1,8 +1,8 @@
 package com.workia.orders.application.ports.out;
 
 import com.workia.orders.domain.model.CalculatedOrder;
-import com.workia.orders.infrastructure.adapter.out.persistence.entity.CreatedOrderEntity;
+import com.workia.orders.domain.model.CreatedOrder;
 
 public interface OrderRepositoryPort {
-    CreatedOrderEntity saveOrder(CalculatedOrder order);
+    CreatedOrder saveOrder(CalculatedOrder order);
 }
